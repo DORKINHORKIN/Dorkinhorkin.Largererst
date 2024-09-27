@@ -20,22 +20,12 @@ title: Home
       <a href="[Your YouTube URL]" target="_blank">YouTube</a>
   </section>
 
-  <section class="portfolio">
-      <h2>My Work</h2>
-      <div class="portfolio-item">
-          <h3>Project Title 1</h3>
-          <p>Short description of the project or content piece.</p>
-          <a href="[Link to Project 1]" target="_blank">View Project</a>
-      </div>
-      <!-- Repeat for more projects -->
-  </section>
-
   <section class="blog-posts">
       <h2>Blog Posts</h2>
       <ul>
         {% for post in site.posts %}
           <li>
-            <a href="{{ post.url }}">{{ post.title }}</a>
+            <a href="{{ page.path }}">{{ post.title }}</a>
             <p>{{ post.excerpt }}</p>
           </li>
         {% endfor %}
