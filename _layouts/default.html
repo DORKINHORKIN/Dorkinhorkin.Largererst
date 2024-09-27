@@ -14,29 +14,7 @@
         <p>Hi, I'm [Your Name], a content creator focused on [Your Focus Area]</p>
     </header>
 
-    <div class="content">
-        <section class="bio">
-            <h2>About Me</h2>
-            <p>I'm passionate about [Brief Description about yourself and your work]. Join me on this creative journey!</p>
-        </section>
-
-        <section class="social-links">
-            <h2>Connect with Me</h2>
-            <a href="[Your LinkedIn URL]" target="_blank">LinkedIn</a>
-            <a href="[Your Twitter URL]" target="_blank">Twitter</a>
-            <a href="[Your Instagram URL]" target="_blank">Instagram</a>
-            <a href="[Your YouTube URL]" target="_blank">YouTube</a>
-        </section>
-
-        <section class="blog-posts">
-            <h2>Blog Posts</h2>
-            <div class="blog-posts-container">
-                {% for post in site.posts %}
-                    {% include blog-card.html post=post %}
-                {% endfor %}
-            </div>
-        </section>
-    </div>
+    {{ content }}
 
     <footer>
         <p style="text-align: center; padding: 20px; background-color: #4CAF50; color: white;">&copy; [Current Year] [Your Name]. All rights reserved.</p>
