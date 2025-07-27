@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const { slug } = Astro.params;
+const post: CollectionEntry<"wiki"> = await getCollection(
+  "wiki",
+  (entry) => entry.id === slug
+).then((entries) => entries[0]);
+
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const pages = await getCollection("wiki");
+  return pages.map((page) => ({
+    params: { slug: page.id },
+  }));
+}
+---
+
+<BaseLayout>
+  <header class="w-full flex flex-col bg-purple-900 text-white">
+    <h1 class="text-5xl font-bold p-4 uppercase font-[lexend]">
+      {post.data.title}
+    </h1>
+  </header>
+
+  <main class="p-4">
+    <article>
+      <slot />
+    </article>
+  </main>
+</BaseLayout>

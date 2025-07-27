@@ -1,0 +1,36 @@
+---
+import "../styles/grid.css";
+
+import { SITE_TITLE } from "../consts.ts";
+
+import { getCollection } from "astro:content";
+
+const navPages = (await getCollection("wiki"))
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+  .map((page) => ({
+    id: page.id,
+    title: page.data.title,
+  }));
+---
+<aside class="flex flex-col h-screen bg-[#191919] text-white border-r border-[#2e2e2e] w-64">
+  <header class="py-4 px-4">
+    <h1 class="text-xl font-bold text-white">
+      {SITE_TITLE}
+    </h1>
+  </header>
+  <nav class="flex-grow overflow-y-auto px-2">
+    <div class="space-y-1 py-2">
+      {navPages.map((page) => (
+        <a 
+          href={`/${page.id}`}
+          class="flex items-center px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-[#2e2e2e] hover:text-white transition-colors"
+        >
+          {page.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+  <footer class="py-3 px-4 border-t border-[#2e2e2e] text-xs text-gray-400">
+    © 2023 My Astro Site
+  </footer>
+</aside>
