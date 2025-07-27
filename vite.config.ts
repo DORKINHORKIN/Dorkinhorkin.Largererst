@@ -14,10 +14,9 @@ export default defineConfig({
     open: true,
     host: true,
     cors: true,
-    hmr: {
-      // Add Netlify's preview domain to allowed hosts
-      host: 'devserver-draft-blazing-sunset--largerest',
-    }
+    allowedHosts: [
+      "devserver-preview--largerest.netlify.app"
+    ]
   },
   build: {
     outDir: 'dist',
