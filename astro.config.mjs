@@ -22,4 +22,11 @@ export default defineConfig({
   },
 
   adapter: netlify(),
+
+  server: {
+    allowedHosts: [
+      'localhost', 
+      'devserver-preview--largerest.netlify.app'
+    ],
+  }
 });
