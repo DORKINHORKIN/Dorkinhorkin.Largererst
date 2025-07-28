@@ -8,7 +8,7 @@ import { getCollection } from "astro:content";
 const navPages = (await getCollection("wiki"))
   .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
   .map((page) => ({
-    id: page.id,
+    slug: page.slug,
     title: page.data.title,
   }));
 ---
@@ -22,7 +22,7 @@ const navPages = (await getCollection("wiki"))
     <div class="space-y-1 py-2">
       {navPages.map((page) => (
         <a 
-          href={`/${page.id}`}
+          href={`/${page.slug}`}
           class="flex items-center px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-[#2e2e2e] hover:text-white transition-colors"
         >
           {page.title}
