@@ -1,8 +1,37 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
+const homePost: CollectionEntry<"wiki"> = await getCollection(
+  "wiki",
+  (entry) => entry.slug === "home"
+).then((entries) => entries[0]);
 
+const { Content } = await homePost.render();
 ---
 
 <BaseLayout>
+  <header class="w-full flex flex-col text-white sticky top-0">
+    <h1 class="text-5xl font-bold p-4 uppercase font-[lexend]">
+      {homePost.data.title}
+    </h1>
+    <nav class="flex flex-row w-full gap-0 px-2">
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="p-4">
+    <article class="prose prose-invert max-w-none">
+      <Content />
+    </article>
+  </main>
 </BaseLayout>

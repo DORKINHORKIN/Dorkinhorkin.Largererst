@@ -25,10 +25,6 @@ export default defineConfig({
     }
   },
 
-  redirects: {
-    "/": "/home",
-  },
-
   adapter: netlify(),
 
 });
