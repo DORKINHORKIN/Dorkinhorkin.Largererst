@@ -15,6 +15,11 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    vite: {
+      server: {
+        allowedHosts: ['.netlify.app'],
+      }
+    }
   },
 
   redirects: {
