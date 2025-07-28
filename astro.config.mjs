@@ -18,7 +18,9 @@ export default defineConfig({
     server: {
       allowedHosts: [
         'devserver-master--largerest.netlify.app',
-        '.netlify.app'
+        '.netlify.app',
+        "4321-dorkinhorkin-largererst-z78s59lg3or.ws-us120.gitpod.io",
+        'gitpod.io'
       ],
     }
   },
