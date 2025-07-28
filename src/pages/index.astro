@@ -1,32 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-import { SITE_TITLE } from "../consts.ts";
 
-import { getCollection } from "astro:content";
-
-const navPages = await getCollection("wiki").then((pages) =>
-  pages.map((page) => ({
-    id: page.id,
-    title: page.data.title,
-  }))
-);
 ---
 
 <BaseLayout>
-  <header class="w-full flex flex-col bg-purple-900 text-white">
-    <h1 class="text-5xl font-bold p-4 uppercase font-[lexend]">
-      {SITE_TITLE}
-    </h1>
-    <nav class="flex flex-row bg-cyan-600 ">
-      { navPages.map((page) => (
-        <a
-          href={`/wiki/${page.id}`}
-          class="text-lg px-4 py-2 bg-black hover:bg-purple-700 font-[lexend] font-md underline"
-        >
-          # {page.title}
-        </a>
-      ))}
-    </nav>
-  </header>
 </BaseLayout>
