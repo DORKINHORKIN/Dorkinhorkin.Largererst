@@ -9,6 +9,7 @@ const post: CollectionEntry<"wiki"> = await getCollection(
   (entry) => entry.id === slug
 ).then((entries) => entries[0]);
 
+const { Content } = await post.render();
 
 export const prerender = true;
 
@@ -28,8 +29,8 @@ export async function getStaticPaths() {
   </header>
 
   <main class="p-4">
-    <article>
-      <slot />
+    <article class="prose prose-invert max-w-none">
+      <Content />
     </article>
   </main>
 </BaseLayout>
