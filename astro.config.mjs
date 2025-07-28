@@ -17,7 +17,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
     vite: {
       server: {
-        allowedHosts: ['.netlify.app'],
+        allowedHosts: ['devserver-master--largerest.netlify.app'],
+        // OR to allow all Netlify previews:
+        // allowedHosts: ['.netlify.app'],
+        // OR to disable host checks (less secure):
+        // allowedHosts: 'all',
       }
     }
   },
