@@ -15,14 +15,11 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    vite: {
-      server: {
-        allowedHosts: ['devserver-master--largerest.netlify.app'],
-        // OR to allow all Netlify previews:
-        // allowedHosts: ['.netlify.app'],
-        // OR to disable host checks (less secure):
-        // allowedHosts: 'all',
-      }
+    server: {
+      allowedHosts: [
+        'devserver-master--largerest.netlify.app',
+        '.netlify.app'
+      ],
     }
   },
 
@@ -32,10 +29,4 @@ export default defineConfig({
 
   adapter: netlify(),
 
-  server: {
-    allowedHosts: [
-      'localhost', 
-      'devserver-preview--largerest.netlify.app'
-    ],
-  }
 });
