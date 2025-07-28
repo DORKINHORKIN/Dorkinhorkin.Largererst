@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+* {
+  font: lexend, sans-serif;
+}
+
 /* Prose styling for markdown content */
 .prose {
   color: #e5e7eb;
