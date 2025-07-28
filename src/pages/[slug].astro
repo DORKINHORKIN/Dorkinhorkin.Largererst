@@ -6,7 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const { slug } = Astro.params;
 const post: CollectionEntry<"wiki"> = await getCollection(
   "wiki",
-  (entry) => entry.id === slug
+  (entry) => entry.slug === slug
 ).then((entries) => entries[0]);
 
 const { Content } = await post.render();
@@ -16,7 +16,7 @@ export const prerender = true;
 export async function getStaticPaths() {
   const pages = await getCollection("wiki");
   return pages.map((page) => ({
-    params: { slug: page.id },
+    params: { slug: page.slug },
   }));
 }
 ---
