@@ -22,10 +22,21 @@ export async function getStaticPaths() {
 ---
 
 <BaseLayout>
-  <header class="w-full flex flex-col bg-purple-900 text-white">
+  <header class="w-full flex flex-col text-white sticky top-0">
     <h1 class="text-5xl font-bold p-4 uppercase font-[lexend]">
       {post.data.title}
     </h1>
+    <nav class="flex flex-row w-full gap-0 px-2">
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+      <a href="#" class="flex flex-row p-0 m-0">
+        <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
+      </a>
+    </nav>
   </header>
 
   <main class="p-4">

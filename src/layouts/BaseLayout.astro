@@ -10,10 +10,10 @@ import MenuBar from "../components/MenuBar.astro";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body class="flex flex-row bg-black text-white w-screen h-screen">
+  <body class="flex flex-row bg-black text-white w-screen h-screen overflow-hidden">
     <MenuBar />
 
-    <main class="flex flex-col w-full h-screen">
+    <main class="flex flex-col w-full h-screen overflow-y-auto">
       <slot />
     </main>
   </body>
