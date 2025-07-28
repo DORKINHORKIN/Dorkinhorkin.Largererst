@@ -1,1 +1,85 @@
 @import "tailwindcss";
+
+/* Prose styling for markdown content */
+.prose {
+  color: #e5e7eb;
+  max-width: 65ch;
+}
+
+.prose h1 {
+  color: #f9fafb;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.111;
+  margin-top: 0;
+  margin-bottom: 0.8888889em;
+}
+
+.prose h2 {
+  color: #f3f4f6;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3333333;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.prose h3 {
+  color: #f3f4f6;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  line-height: 1.75;
+}
+
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose strong {
+  color: #f9fafb;
+  font-weight: 600;
+}
+
+.prose em {
+  color: #d1d5db;
+  font-style: italic;
+}
+
+.prose code {
+  color: #fbbf24;
+  background-color: #374151;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.prose hr {
+  border-color: #4b5563;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.prose a {
+  color: #60a5fa;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose a:hover {
+  color: #93c5fd;
+}

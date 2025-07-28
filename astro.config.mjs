@@ -10,16 +10,21 @@ import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://largerest.com',
   integrations: [mdx(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
-  },
-
-  redirects: {
-    "/": "/home",
+    server: {
+      allowedHosts: [
+        'devserver-master--largerest.netlify.app',
+        '.netlify.app',
+        "4321-dorkinhorkin-largererst-z78s59lg3or.ws-us120.gitpod.io",
+        'gitpod.io'
+      ],
+    }
   },
 
   adapter: netlify(),
+
 });
