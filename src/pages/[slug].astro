@@ -1,7 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../components/layouts/BaseLayout.astro";
+import ContentLayout from "../components/layouts/ContentLayout.astro";
+
 
 const { slug } = Astro.params;
 const post: CollectionEntry<"wiki"> = await getCollection(
@@ -22,25 +24,10 @@ export async function getStaticPaths() {
 ---
 
 <BaseLayout>
-  <main class="flex flex-col w-full max-w-4xl mx-auto border border-gray-800 h-screen overflow-y-auto">
-    <header class="w-full flex flex-col text-white sticky top-0 bg-black z-10">
-      <h1 class="text-5xl font-bold p-8 uppercase font-[lexend]">
-        {post.data.title}
-      </h1>
-      <nav class="flex flex-row w-full gap-0 px-8">
-        <a href="#" class="flex flex-row p-0 m-0">
-          <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
-        </a>
-        <a href="#" class="flex flex-row p-0 m-0">
-          <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
-        </a>
-        <a href="#" class="flex flex-row p-0 m-0">
-          <span class="px-2 py-1 text-white font-semibold text-capitalized"> breadcrumbs </span>
-        </a>
-      </nav>
-    </header>
-    <article class="prose prose-invert max-w-none p-8">
+  <ContentLayout>
+    <h1 slot="title" class="text-5xl font-bold uppercase">{post.data.title}</h1>
+    <div slot="body">
       <Content />
-    </article>
-  </main>
+    </div>
+  </ContentLayout>
 </BaseLayout>
