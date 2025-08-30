@@ -47,14 +47,14 @@
       textColor: "text-red-900",
     },
     {
-      href: "#",
+      href: "https://x.com/bechdlmcmiggins",
       text: "MLP @bechdlmcmiggins",
       icon: "fas fa-horse",
       bgColor: "bg-pink-100",
       textColor: "text-pink-900",
     },
     {
-      href: "#",
+      href: "https://x.com/largerArtz",
       text: "HYPER @largerArtz",
       icon: "fas fa-bolt",
       bgColor: "bg-purple-100",
