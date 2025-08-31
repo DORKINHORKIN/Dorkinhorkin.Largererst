@@ -1,4 +1,5 @@
-<script lang="ts" context="module">
+<script lang="ts" context='module'>
+  export const prerender = true;
   import svelteSVG from "$lib/assets/Svelte.svg";
   import Button from "$lib/components/button.svelte";
 
@@ -17,6 +18,20 @@
       icon: "fab fa-x-twitter",
       bgColor: "bg-blue-100",
       textColor: "text-blue-900",
+    },
+    {
+      href: "https://x.com/bechdlmcmiggins",
+      text: "Twitter Ponies",
+      icon: "fas fa-horse",
+      bgColor: "bg-pink-100",
+      textColor: "text-pink-900",
+    },
+    {
+      href: "https://x.com/largerArtz",
+      text: "Twitter HYPER",
+      icon: "fas fa-bolt",
+      bgColor: "bg-purple-100",
+      textColor: "text-purple-900",
     },
     {
       href: "https://bsky.app/profile/dorkinnsfw.bsky.social",
@@ -47,25 +62,11 @@
       textColor: "text-red-900",
     },
     {
-      href: "https://x.com/bechdlmcmiggins",
-      text: "MLP @bechdlmcmiggins",
-      icon: "fas fa-horse",
-      bgColor: "bg-pink-100",
-      textColor: "text-pink-900",
-    },
-    {
-      href: "https://x.com/largerArtz",
-      text: "HYPER @largerArtz",
-      icon: "fas fa-bolt",
-      bgColor: "bg-purple-100",
-      textColor: "text-purple-900",
-    },
-    {
-      href: "https://commiss.io/largerartz",
-      text: "Commissions Closed",
-      icon: "fas fa-money-bill-wave",
-      bgColor: "bg-green-100",
-      textColor: "text-green-900",
+      href: "http://ko-fi.com/largerest",
+      text: "Ko-fi",
+      icon: "fas fa-coffee",
+      bgColor: "bg-yellow-100",
+      textColor: "text-yellow-900",
     },
   ];
 
@@ -76,45 +77,40 @@
 <svelte:head>
   <title>Dorkin Links</title>
   <meta name="description" content="Welcome to the home page" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;900&display=swap" rel="stylesheet" />
 </svelte:head>
 
 <div
-  class="relative font-[lexend] bg-black text-white min-h-screen w-full flex-col items-center"
+  class="relative font-[lexend] text-white flex-col items-center min-h-screen w-full"
 >
   <img
     src={background}
     class="absolute inset-0 object-cover w-full h-full"
     alt=""
   />
-  <!-- svelte-ignore element_invalid_self_closing_tag -->
   <div
     class="absolute w-full h-full bg-black opacity-100 [mask-image:radial-gradient(circle_at_50%_50%,transparent_60%,black_100%)] [--tw-mask-image:radial-gradient(circle_at_50%_50%,transparent_60%,black_100%)]"
   />
-  
-  <div class="z-10 relative flex-col items-center justify-center flex h-screen drop-shadow-lg px-4">
-    
-    <header class="flex flex-row items-center justify-center p-8 rounded-full  gap-4">
-      
-      <div class="bg-white rounded-full w-28 h-28 flex items-center justify-center overflow-hidden p-3">
+
+  <div class="z-10 relative flex-col items-center justify-center flex min-h-screen drop-shadow-lg px-2 sm:px-4">
+    <header class="flex flex-col sm:flex-row items-center justify-center p-4 sm:p-8 rounded-full gap-2 sm:gap-4">
+      <div class="bg-white rounded-full w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center overflow-hidden p-2 sm:p-3">
         <img src="https://pbs.twimg.com/profile_images/1961808060311060480/ne8KV19A_200x200.jpg" alt="">
       </div>
-
-      <h1 class="text-5xl  uppercase font-black drop-shadow-lg">
+      <h1 class="text-3xl sm:text-5xl uppercase font-black drop-shadow-lg text-center sm:text-left">
         Dorkin<br/>Largerest
       </h1>
-
     </header>
-    
-    <nav class="w-full h-full flex flex-col items-center justify-center">
 
-      <ul class="flex flex-col gap-4 mx-auto w-full max-w-md mb-8">
+    <nav class="w-full flex flex-col items-center justify-center">
+      <ul class="flex flex-col gap-3 sm:gap-4 mx-auto w-full max-w-xs sm:max-w-md mb-6 sm:mb-8">
         {#each links as link}
           <li>
             <Button
@@ -127,18 +123,12 @@
           </li>
         {/each}
       </ul>
-
     </nav>
 
-
-    <footer class="text-center text-sm text-white/70 p-8">
+    <footer class="text-center text-xs sm:text-sm text-white/70 p-4 sm:p-8">
       <p>
         Made with ❤️ with <img src={svelteSVG} alt="SvelteKit Logo" class="inline-block w-4 h-4" /> SvelteKit!
       </p>
     </footer>
-
-
-    </div>
-
+  </div>
 </div>
-
