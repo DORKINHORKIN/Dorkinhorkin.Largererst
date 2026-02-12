@@ -1,0 +1,19 @@
+---
+const { title = '', description = '', image = 'https://placehold.co/64', meta = '' } = Astro.props;
+
+
+---
+
+<div
+  class="relative w-full aspect-square bg-cover bg-center rounded-lg overflow-hidden block"
+  role="article"
+  style={`background-image: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0)), url('${image}');`}
+>
+  <div class="absolute left-0 right-0 bottom-0 p-3 text-white flex justify-between items-end gap-3 z-10 pointer-events-none">
+    <div class="pointer-events-auto">
+      <h3 class="m-0 text-base leading-tight font-extrabold">{title}</h3>
+      {description && <p class="mt-1 text-sm opacity-95">{description}</p>}
+    </div>
+    {meta && <div class="text-sm opacity-95 whitespace-nowrap">{meta}</div>}
+  </div>
+</div>

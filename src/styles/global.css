@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-black text-white;
+  @apply max-w-lg mx-auto;
+  @apply flex;
+  @apply flex-col;
+  @apply min-h-screen;
+}

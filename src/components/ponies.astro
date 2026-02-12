@@ -1,0 +1,104 @@
+---
+import Card from "./card.astro";
+---
+<div class="flex flex-col gap-4">
+  
+  <section>
+    <div class="flex items-center gap-2 mb-4">
+      <img
+        src="https://static.fimfiction.net/images/emoticons/moustache.png"
+        alt="Ponystuff"
+        class="h-8 w-8 rounded-full"
+      />
+      <h2 class="text-2xl font-semibold">PONIES</h2>
+    </div>
+  
+    <a
+      href="/stories"
+      class="flex items-center gap-2 mb-4"
+    >
+      <img
+        src="https://placehold.co/48x48"
+        alt="My Stories"
+        class="h-8 w-8 rounded-full"
+      />
+      <h4 class="text-xl font-medium">My Stories</h4>
+    </a>
+  
+    <ul class="grid grid-cols-2 gap-4">
+      <li>
+        <Card
+          title="Spike’s Harem"
+          description="Gabby, Smolder, Gilda, Ember, and Rarity"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+      <li>
+        <Card
+          title="The Misadventures of Shape Shifter Dash"
+          description="A chaotic dash through forms and follies"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+      <li>
+        <Card
+          title="Anon and Harshy"
+          description="An unlikely duo's escapades"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+      <li>
+        <Card
+          title="The Many Green Aliens of Ponyville"
+          description="Strange visitors cause mischief"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+      <li>
+        <Card
+          title="Duskshine & Eris"
+          description="Duskshine is best pony; Eris (Fem Discord) is his wife"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+    </ul>
+  </section>
+  
+  <section>
+    <a
+      href="/stories"
+      class="flex items-center gap-2 mb-4"
+    >
+      <img
+        src="https://placehold.co/48x48"
+        alt="My Stories"
+        class="h-8 w-8 rounded-full"
+      />
+      <h4 class="text-xl font-medium">Doodles</h4>
+    </a>
+    <ul class="grid grid-cols-2 gap-4">
+      <li>
+        <Card
+          title="Harshwhinny"
+          description="Pinup"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+      <li>
+        <Card
+          title="Trixie"
+          description="Nah I'd Win 😏"
+          image="https://placehold.co/25x25"
+        />
+      </li>
+  
+      <li>
+        <Card
+          title="Twilight"
+          description="Cranks 90s"
+          image="https://placehold.co/64x64"
+        />
+      </li>
+    </ul>
+  </section>
+</div>
