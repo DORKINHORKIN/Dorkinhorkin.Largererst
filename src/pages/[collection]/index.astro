@@ -1,0 +1,10 @@
+---
+
+export function getStaticPaths() {
+  return [
+    { params: { collection: "projects" } }
+  ];
+}
+
+return Astro.redirect("/");
+---

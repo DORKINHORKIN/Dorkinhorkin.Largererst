@@ -1,0 +1,124 @@
+---
+interface ImageItem {
+  src: string;
+  alt?: string;
+}
+
+const { images, className = "" } = Astro.props as {
+  images: ImageItem[];
+  className?: string;
+};
+---
+
+<div
+  x-data="carousel()"
+  x-init="init()"
+  @keydown.window="onKey($event)"
+  class={`relative w-full h-full overflow-hidden ${className}`}
+  tabindex="0"
+>
+  <div
+    x-ref="track"
+    @scroll="onScroll"
+    class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+    
+  >
+    {images.map((img) => (
+      <div class="w-full h-full shrink-0 snap-center">
+        <img
+          src={img.src}
+          alt={img.alt ?? ""}
+          loading="lazy"
+          class="w-full h-full block bg-black"
+          :class={`fit ? "object-contain" : "object-cover"`}  
+        />
+      </div>
+    ))}
+  </div>
+
+  <button
+    @click="prev()"
+    aria-label="Previous slide"
+    class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
+  >
+    ‹
+  </button>
+
+  <button
+    @click="next()"
+    aria-label="Next slide"
+    class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
+  >
+    ›
+  </button>
+  <button
+  @click="toggleFit()"
+  class="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 text-sm hover:bg-black/75 transition-colors"
+>
+  <span x-text="fit ? 'Fill' : 'Fit'"></span>
+</button>
+</div>
+
+<script>
+  import Alpine from "alpinejs";
+
+  window.Alpine = Alpine;
+
+  Alpine.data("carousel", () => ({
+    index: 0,
+    total: 0,
+    fit: false,
+
+    toggleFit() {
+      this.fit = !this.fit;
+    },
+    init() {
+      this.total = this.$refs.track.children.length;
+    },
+
+    slideWidth() {
+      return this.$refs.track.clientWidth;
+    },
+
+    scrollTo(i) {
+      this.index = (i + this.total) % this.total;
+
+      this.$refs.track.scrollTo({
+        left: this.index * this.slideWidth(),
+        behavior: "smooth",
+      });
+    },
+
+    next() {
+      this.scrollTo(this.index + 1);
+    },
+
+    prev() {
+      this.scrollTo(this.index - 1);
+    },
+
+    onScroll() {
+      const newIndex = Math.round(
+        this.$refs.track.scrollLeft / this.slideWidth()
+      );
+      this.index = newIndex;
+    },
+
+    onKey(e) {
+      if (e.key === "ArrowLeft") this.prev();
+      if (e.key === "ArrowRight") this.next();
+    },
+  }));
+
+  Alpine.start();
+</script>
+
+<style scoped>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

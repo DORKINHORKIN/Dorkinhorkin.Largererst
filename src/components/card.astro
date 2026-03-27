@@ -1,19 +1,27 @@
 ---
-const { title = '', description = '', image = 'https://placehold.co/64', meta = '' } = Astro.props;
-
-
+const {
+  href = "#",
+  title = "",
+  description = "",
+  cover = "https://placehold.co/64",
+} = Astro.props;
+const Tag = Astro.props.tag ?? "div";
 ---
 
-<div
+<Tag
+  {href}
   class="relative w-full aspect-square bg-cover bg-center rounded-lg overflow-hidden block"
-  role="article"
-  style={`background-image: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0)), url('${image}');`}
+  style={`background-image: url('${cover}')`}
 >
-  <div class="absolute left-0 right-0 bottom-0 p-3 text-white flex justify-between items-end gap-3 z-10 pointer-events-none">
-    <div class="pointer-events-auto">
-      <h3 class="m-0 text-base leading-tight font-extrabold">{title}</h3>
-      {description && <p class="mt-1 text-sm opacity-95">{description}</p>}
-    </div>
-    {meta && <div class="text-sm opacity-95 whitespace-nowrap">{meta}</div>}
+  <div
+    class="absolute flex flex-col w-full justify-end h-full p-4 bg-linear-to-t from-black/40 from-20% to-transparent to-80% z-10"
+  >
+    <h3 class="m-0 text-base leading-tight font-extrabold">{title}</h3>
+    <!-- {description && <p class="mt-1 text-sm opacity-95">{description}</p>} -->
+    <!-- <div
+      class="absolute inset-0 backdrop-blur-sm -z-1"
+      style="background-clip: padding-box; -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%); mask-image: linear-gradient(to top, black 20%, transparent 80%);"
+    >
+    </div> -->
   </div>
-</div>
+</Tag>

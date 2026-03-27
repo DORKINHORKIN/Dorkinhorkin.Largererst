@@ -1,0 +1,44 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Layout from "../../components/layout.astro";
+
+import { CollectionKeys } from "../../content.config";
+import Carousel from "../../components/carousel.astro";
+
+export async function getStaticPaths() {
+  for (const collection of CollectionKeys) {
+    const entries = await getCollection(collection);
+    return entries.map((entry) => ({
+      params: { collection, id: entry.id },
+    }));
+  }
+}
+
+if (Astro.params.id === "index") {
+  return Astro.redirect(`/${Astro.params.collection}/`);
+}
+
+const entry = await getEntry(Astro.params.collection, Astro.params.id)!;
+const { Content } = await render(entry);
+
+interface ImageItem {
+  src: string;
+  alt?: string;
+}
+const allImages = [
+  ...(entry.data.cover ? [{ src: entry.data.cover, alt: entry.data.title }] : []),
+  ...(entry.data.images || []).map((src) => ({ src })),
+] as ImageItem[];
+const hasImages = allImages.length > 0;
+---
+
+<Layout title={entry.data.title} cover={entry.data.cover}>
+  {hasImages && <Carousel images={allImages} className="aspect-video h-auto w-full mb-4 rounded-2xl"/>}
+  <h1 class="text-5xl font-bold">{entry.data.title}</h1>
+  <p class="opacity-70">{entry.data.description}</p>
+  <span class="text-sm opacity-70">
+    {entry.data.date?.toLocaleDateString()}
+  </span>
+  <div class="prose-invert prose text-white my-6"><Content /></div>
+
+</Layout>

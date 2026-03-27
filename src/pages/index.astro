@@ -2,11 +2,49 @@
 import Layout from "../components/layout.astro";
 
 import Card from "../components/card.astro";
-import Ponies from "../components/ponies.astro";
+
+import { getCollection, render } from "astro:content";
+
+const renderedEntries = [];
+const entries = await getCollection("projects");
+for (const entry of entries) {
+  const { Content } = await render(entry);
+  renderedEntries.push({ entry, Content });
+}
+const indexEntry = renderedEntries.find(({ entry }) => entry.id === "index");
 ---
 
-<Layout title="LARGEREST">
-	
+<Layout title={"LARGEREST"}>
+  <div class="flex flex-col gap-4">
+    <section>
+      
+      <div class="flex flex-col mb-6 gap-3">
+        <h2 class="text-2xl font-bold">
+          {indexEntry?.entry.data.title || "Projects"}
+        </h2>
+        <p>{indexEntry?.entry.data.description}</p>
+        <div class="prose-invert prose text-white">
+          {indexEntry && <indexEntry.Content />}
+        </div>
+      </div>
 
-	<Ponies />
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        {
+          renderedEntries
+            .filter(({ entry }) => entry.id !== "index")
+            .map(({ entry, Content }) => (
+              <Card
+                tag="a"
+                href={`/projects/${entry.id}/`}
+                title={entry.data.title}
+                description={entry.data.description}
+                cover={entry.data.cover}
+              >
+                <Content />
+              </Card>
+            ))
+        }
+      </div>
+    </section>
+  </div>
 </Layout>
