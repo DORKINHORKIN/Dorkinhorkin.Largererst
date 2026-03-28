@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "astro build && git add . && git commit  && git push"
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.5.0",

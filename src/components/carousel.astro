@@ -1,11 +1,7 @@
 ---
-interface ImageItem {
-  src: string;
-  alt?: string;
-}
 
 const { images, className = "" } = Astro.props as {
-  images: ImageItem[];
+  images: {src: string, alt?: string}[];
   className?: string;
 };
 ---
@@ -23,51 +19,67 @@ const { images, className = "" } = Astro.props as {
     class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
     
   >
-    {images.map((img) => (
-      <div class="w-full h-full shrink-0 snap-center">
+    {images.map((img, i) => (
+      <div class="w-full h-full flex overflow-hidden shrink-0 snap-center">
         <img
           src={img.src}
           alt={img.alt ?? ""}
           loading="lazy"
-          class="w-full h-full block bg-black"
-          :class={`fit ? "object-contain" : "object-cover"`}  
+          class="w-full h-auto block bg-black object-center"
+          :class={`fit ? "object-contain" : "object-cover h-full "`}  
         />
       </div>
     ))}
   </div>
-
-  <button
-    @click="prev()"
-    aria-label="Previous slide"
-    class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
-  >
-    ‹
-  </button>
-
-  <button
-    @click="next()"
-    aria-label="Next slide"
-    class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
-  >
-    ›
-  </button>
-  <button
-  @click="toggleFit()"
-  class="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 text-sm hover:bg-black/75 transition-colors"
->
-  <span x-text="fit ? 'Fill' : 'Fit'"></span>
-</button>
+<div class="absolute inset-0 hover:opacity-100 opacity-0 transition-opacity">
+  
+      <button
+        @click="prev()"
+        aria-label="Previous slide"
+        class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
+      >
+        ‹
+      </button>
+  
+      <button
+        @click="next()"
+        aria-label="Next slide"
+        class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
+      >
+        ›
+      </button>
+      <button
+        @click="toggleFit()"
+        class="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 text-sm hover:bg-black/75 transition-colors"
+      >
+        <span x-text="fit ? 'Fill' : 'Fit'"></span>
+      </button>
+  
+      <!-- Thumbnail picker -->
+      <div class="absolute left-1/2 -translate-x-1/2 bottom-3 flex gap-2 items-center z-10">
+        {images.map((img, i) => (
+          <button
+            @click={`scrollTo(${i})`}
+            aria-label={`Go to slide ${i + 1}`}
+            class="w-12 h-8 overflow-hidden rounded-sm bg-black/40 p-0 border-2 transition-transform"
+            :class={`index === ${i} ? 'border-white scale-105' : 'border-transparent'`}
+          >
+            <img src={img.src} alt={img.alt ?? ''} loading="lazy" class="w-full h-full object-cover"/>
+          </button>
+        ))}
+      </div>
+</div>
 </div>
 
 <script>
   import Alpine from "alpinejs";
 
-  window.Alpine = Alpine;
 
   Alpine.data("carousel", () => ({
     index: 0,
     total: 0,
-    fit: false,
+    fit: true,
+    $refs: {} as any,
 
     toggleFit() {
       this.fit = !this.fit;
@@ -76,11 +88,11 @@ const { images, className = "" } = Astro.props as {
       this.total = this.$refs.track.children.length;
     },
 
-    slideWidth() {
+    slideWidth(): number {
       return this.$refs.track.clientWidth;
     },
 
-    scrollTo(i) {
+    scrollTo(i: number) {
       this.index = (i + this.total) % this.total;
 
       this.$refs.track.scrollTo({
@@ -104,13 +116,12 @@ const { images, className = "" } = Astro.props as {
       this.index = newIndex;
     },
 
-    onKey(e) {
+    onKey(e: KeyboardEvent) {
       if (e.key === "ArrowLeft") this.prev();
       if (e.key === "ArrowRight") this.next();
     },
   }));
 
-  Alpine.start();
 </script>
 
 <style scoped>
