@@ -4,15 +4,15 @@ import "../styles/global.css";
 
 const { title } = Astro.props;
 
-import { getImage } from "astro:assets";
+// import { getImage } from "astro:assets";
 
-import BG from "../assets/illustration4.png";
-const optimized = await getImage({
-  src: BG,
-  width: 500,
-  height: 500,
-  format: "webp",
-});
+// import BG from "../assets/illustration4.png";
+// const optimized = await getImage({
+//   src: BG,
+//   width: 500,
+//   height: 500,
+//   format: "webp",
+// });
 ---
 
 <html lang="en">
@@ -33,12 +33,12 @@ const optimized = await getImage({
         <h1 class="text-6xl font-black py-4 hover:underline">LARGEREST</h1>
       </a>
     </header>
-    <img
+    <!-- <img
       src={optimized.src}
       alt="Background"
       class="absolute inset-0 w-full h-full object-cover -z-1 blur-3xl opacity-50 transition-all duration-500"
       transition:persist
-    />
+    /> -->
     <main class="flex flex-col flex-1">
       <slot />
     </main>
