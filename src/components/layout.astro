@@ -2,22 +2,19 @@
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 
-const { title, cover = "" } = Astro.props;
+const { title } = Astro.props;
 
 import { getImage } from "astro:assets";
-import { ensureImageCached } from "../lib/image-cache.ts";
 
-
-let optimized;
-if (cover) {
-  const diskPath = await ensureImageCached(cover);
-  const image = await import("../assets/remote-cache/" + diskPath).then((mod) => mod.default);
-  optimized = await getImage({ src: image, width:500, height:500, format: "webp" });
-} else {
-  const bg = await import("../assets/illustration4.png").then((mod) => mod.default);
-  optimized = await getImage({ src: bg, width:500, height:500, format: "webp" });
-}
-
+const bg = await import("../assets/illustration4.png").then(
+  (mod) => mod.default,
+);
+const optimized = await getImage({
+  src: bg,
+  width: 500,
+  height: 500,
+  format: "webp",
+});
 ---
 
 <html lang="en">
@@ -42,6 +39,7 @@ if (cover) {
       src={optimized.src}
       alt="Background"
       class="absolute inset-0 w-full h-full object-cover -z-1 blur-3xl opacity-50 transition-all duration-500"
+      transition:persist
     />
     <main class="flex flex-col flex-1">
       <slot />
