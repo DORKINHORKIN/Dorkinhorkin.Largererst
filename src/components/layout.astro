@@ -6,11 +6,9 @@ const { title } = Astro.props;
 
 import { getImage } from "astro:assets";
 
-const bg = await import("../assets/illustration4.png").then(
-  (mod) => mod.default,
-);
+import BG from "../assets/illustration4.png";
 const optimized = await getImage({
-  src: bg,
+  src: BG,
   width: 500,
   height: 500,
   format: "webp",
