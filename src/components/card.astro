@@ -1,27 +1,46 @@
 ---
+import { getImage } from "astro:assets";
+import { ensureImageCached } from "../lib/image-cache.ts";
+
 const {
   href = "#",
   title = "",
   description = "",
-  cover = "https://placehold.co/64",
+  cover = "https://placehold.co/200.png",
+  width = 400,
+  height = 400,
+  className = "",
 } = Astro.props;
-const Tag = Astro.props.tag ?? "div";
+// const a = Astro.props.tag ?? "div";
+
+const diskPath = await ensureImageCached(cover);
+const image = await import("../assets/remote-cache/" + diskPath).then((mod) => mod.default);
+const optimized = await getImage({ src: image, width, height, format: "webp" });
+
 ---
 
-<Tag
+<a
   {href}
-  class="relative w-full aspect-square bg-cover bg-center rounded-lg overflow-hidden block"
-  style={`background-image: url('${cover}')`}
+  class={`relative w-full aspect-square rounded-lg overflow-hidden flex
+    ${className}
+    `}
 >
+  <img
+    src={optimized.src}
+    alt={title}
+    width={width}
+    height={height}
+    class="absolute inset-0 w-full h-full object-cover"
+  />
+
   <div
-    class="absolute flex flex-col w-full justify-end h-full p-4 bg-linear-to-t from-black/40 from-20% to-transparent to-80% z-10"
+    class="absolute flex flex-col w-full justify-end h-full p-4 bg-linear-to-t from-black/40 from-20% to-transparent to-80% z-1"
   >
-    <h3 class="m-0 text-base leading-tight font-extrabold">{title}</h3>
-    <!-- {description && <p class="mt-1 text-sm opacity-95">{description}</p>} -->
-    <!-- <div
+    <h3 class="m-0 text-base leading-tight font-extrabold hover:underline">{title}</h3>
+    <div
       class="absolute inset-0 backdrop-blur-sm -z-1"
-      style="background-clip: padding-box; -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%); mask-image: linear-gradient(to top, black 20%, transparent 80%);"
+      style="background-clip: padding-box; -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%); mask-image: linear-gradient(to top, black 5%, transparent 20%);"
     >
-    </div> -->
+    </div>
   </div>
-</Tag>
+</a>

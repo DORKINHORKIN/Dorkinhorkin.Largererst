@@ -1,9 +1,23 @@
 ---
+import { getImage } from "astro:assets";
+import { ensureImageCached } from "../lib/image-cache";
 
 const { images, className = "" } = Astro.props as {
-  images: {src: string, alt?: string}[];
+  images: { src: string; alt?: string }[];
   className?: string;
 };
+
+const processedImages = await Promise.all(
+  images.map(async (img) => {
+    try {
+      const local = await ensureImageCached(img.src);
+      const optimized = await getImage({ src: local, format: "webp" });
+      return { ...img, src: optimized.src, width: optimized.options.width, height: optimized.options.height };
+    } catch (e) {
+      return img;
+    }
+  })
+);
 ---
 
 <div
@@ -13,62 +27,70 @@ const { images, className = "" } = Astro.props as {
   class={`relative w-full h-full overflow-hidden ${className}`}
   tabindex="0"
 >
+
+
+
   <div
     x-ref="track"
-    @scroll="onScroll"
-    class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
-    
+    class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide opacity-0 transition-all duration-500"  
+    :class=' true ? "opacity-100" : "opacity-0 pointer-events-none" '
   >
-    {images.map((img, i) => (
+    {processedImages.map((img, i) => (
       <div class="w-full h-full flex overflow-hidden shrink-0 snap-center">
         <img
           src={img.src}
           alt={img.alt ?? ""}
           loading="lazy"
           class="w-full h-auto block bg-black object-center"
-          :class={`fit ? "object-contain" : "object-cover h-full "`}  
+          :class={`fit ? "object-contain" : "object-cover h-full "`}
         />
       </div>
     ))}
   </div>
-<div class="absolute inset-0 hover:opacity-100 opacity-0 transition-opacity">
+
+
+
+  <div class="absolute inset-0 z-10">
   
-      <button
-        @click="prev()"
-        aria-label="Previous slide"
-        class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
-      >
-        ‹
-      </button>
-  
-      <button
-        @click="next()"
-        aria-label="Next slide"
-        class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
-      >
-        ›
-      </button>
-      <button
-        @click="toggleFit()"
-        class="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 text-sm hover:bg-black/75 transition-colors"
-      >
-        <span x-text="fit ? 'Fill' : 'Fit'"></span>
-      </button>
-  
-      <!-- Thumbnail picker -->
-      <div class="absolute left-1/2 -translate-x-1/2 bottom-3 flex gap-2 items-center z-10">
-        {images.map((img, i) => (
-          <button
-            @click={`scrollTo(${i})`}
-            aria-label={`Go to slide ${i + 1}`}
-            class="w-12 h-8 overflow-hidden rounded-sm bg-black/40 p-0 border-2 transition-transform"
-            :class={`index === ${i} ? 'border-white scale-105' : 'border-transparent'`}
-          >
-            <img src={img.src} alt={img.alt ?? ''} loading="lazy" class="w-full h-full object-cover"/>
-          </button>
-        ))}
-      </div>
-</div>
+    <button
+      @click="prev()"
+      aria-label="Previous slide"
+      class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-white/75 transition-all"
+    >
+      ‹
+    </button>
+
+    <button
+      @click="next()"
+      aria-label="Next slide"
+      class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 hover:bg-black/75 transition-colors"
+    >
+      ›
+    </button>
+    <button
+      @click="toggleFit()"
+      class="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 text-sm hover:bg-black/75 transition-colors"
+    >
+      <span x-text="fit ? 'Fill' : 'Fit'"> Fill </span>
+    </button>
+
+    <!-- Thumbnail picker -->
+    <div class="absolute left-1/2 -translate-x-1/2 bottom-3 flex gap-2 items-center z-10">
+      {processedImages.map((img, i) => (
+        <button
+          @click={`scrollTo(${i})`}
+          aria-label={`Go to slide ${i + 1}`}
+          class="w-12 h-8 overflow-hidden rounded-sm bg-black/40 p-0 border-2 hover:transform-105 transition-transform"
+          :class={`index === ${i} ? 'border-white scale-120' : 'border-transparent'`}
+        >
+          <img src={img.src} alt={img.alt ?? ''} loading="lazy" class="w-full h-full object-cover"/>
+        </button>
+      ))}
+    </div>
+  </div>
+
+
+
 </div>
 
 <script>
@@ -85,17 +107,17 @@ const { images, className = "" } = Astro.props as {
       this.fit = !this.fit;
     },
     init() {
-      this.total = this.$refs.track.children.length;
+      this.total = this.$refs.track!.children.length;
     },
 
     slideWidth(): number {
-      return this.$refs.track.clientWidth;
+      return this.$refs.track!.clientWidth;
     },
 
     scrollTo(i: number) {
       this.index = (i + this.total) % this.total;
 
-      this.$refs.track.scrollTo({
+      this.$refs.track!.scrollTo({
         left: this.index * this.slideWidth(),
         behavior: "smooth",
       });
@@ -111,7 +133,7 @@ const { images, className = "" } = Astro.props as {
 
     onScroll() {
       const newIndex = Math.round(
-        this.$refs.track.scrollLeft / this.slideWidth()
+        this.$refs.track!.scrollLeft / this.slideWidth()
       );
       this.index = newIndex;
     },

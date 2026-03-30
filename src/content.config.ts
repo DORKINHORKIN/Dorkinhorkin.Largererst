@@ -8,7 +8,7 @@ export const EntrySchema = z.object({
   description: z.string().optional(),
   cover: z.string().optional(),
   images: z.array(z.string()).optional(),
-  draft: z.boolean().optional()
+  draft: z.boolean().default(true).optional()
 });
 
 const projects = defineCollection({

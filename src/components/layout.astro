@@ -1,8 +1,23 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
-import Alpine from "alpinejs";
 
-const { title, cover = "https://picsum.photos/seed/600/400"} = Astro.props;
+const { title, cover = "" } = Astro.props;
+
+import { getImage } from "astro:assets";
+import { ensureImageCached } from "../lib/image-cache.ts";
+
+
+let optimized;
+if (cover) {
+  const diskPath = await ensureImageCached(cover);
+  const image = await import("../assets/remote-cache/" + diskPath).then((mod) => mod.default);
+  optimized = await getImage({ src: image, width:500, height:500, format: "webp" });
+} else {
+  const bg = await import("../assets/illustration4.png").then((mod) => mod.default);
+  optimized = await getImage({ src: bg, width:500, height:500, format: "webp" });
+}
+
 ---
 
 <html lang="en">
@@ -13,19 +28,27 @@ const { title, cover = "https://picsum.photos/seed/600/400"} = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title && title + " | "} LARGEREST</title>
+    <ClientRouter />
   </head>
-  <body class="font-[lexend] bg-black text-white max-w-4xl mx-auto flex flex-col min-h-screen p-4">
-    <header class="mb-6">
+  <body
+    class="font-[lexend] bg-black text-white max-w-4xl mx-auto flex flex-col min-h-screen p-4"
+  >
+    <header class="h-40 flex flex-col justify-end">
       <a href="/">
-        <h1 class="text-6xl font-black"> LARGEREST </h1>
+        <h1 class="text-6xl font-black py-4 hover:underline">LARGEREST</h1>
       </a>
     </header>
-    
-    <main class="flex flex-col">
-      
+    <img
+      src={optimized.src}
+      alt="Background"
+      class="absolute inset-0 w-full h-full object-cover -z-1 blur-3xl opacity-50 transition-all duration-500"
+    />
+    <main class="flex flex-col flex-1">
       <slot />
     </main>
-    <footer class="h-20  flex items-center justify-center text-sm opacity-70 mt-10">
+    <footer
+      class="h-20 flex items-center justify-center text-sm opacity-70 mt-10"
+    >
       <p>&copy; {new Date().getFullYear()} LARGEREST. All rights reserved.</p>
     </footer>
   </body>

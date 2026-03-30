@@ -5,43 +5,48 @@ import Card from "../components/card.astro";
 
 import { getCollection, render } from "astro:content";
 
-const renderedEntries = [];
 const entries = await getCollection("projects");
-for (const entry of entries) {
-  const { Content } = await render(entry);
-  renderedEntries.push({ entry, Content });
-}
-const indexEntry = renderedEntries.find(({ entry }) => entry.id === "index");
+const indexEntry = entries.find((entry) => entry.id === "index");
+const indexContent = indexEntry ? await render(indexEntry) : null;
 ---
 
 <Layout title={"LARGEREST"}>
   <div class="flex flex-col gap-4">
     <section>
-      
       <div class="flex flex-col mb-6 gap-3">
         <h2 class="text-2xl font-bold">
-          {indexEntry?.entry.data.title || "Projects"}
+          {indexEntry?.data.title || "Projects"}
         </h2>
-        <p>{indexEntry?.entry.data.description}</p>
-        <div class="prose-invert prose text-white">
-          {indexEntry && <indexEntry.Content />}
-        </div>
+        {
+          indexEntry?.data.description && (
+            <p>{indexEntry.data.description}</p>
+          )
+        }
+        {
+          indexContent && (
+            <div class="prose-invert prose text-white">
+              <indexContent />
+            </div>
+          )
+        }
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4"
+      >
         {
-          renderedEntries
-            .filter(({ entry }) => entry.id !== "index")
-            .map(({ entry, Content }) => (
+          entries
+            .filter((entry) => entry.id !== "index")
+            .filter((entry) => !entry.data.draft)
+            .map((entry) => (
               <Card
                 tag="a"
                 href={`/projects/${entry.id}/`}
                 title={entry.data.title}
                 description={entry.data.description}
                 cover={entry.data.cover}
-              >
-                <Content />
-              </Card>
+                className="[&:hover]:scale-120 [&:hover]:z-10 transition-transform "
+              />
             ))
         }
       </div>

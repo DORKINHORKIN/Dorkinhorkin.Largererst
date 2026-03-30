@@ -5,4 +5,5 @@ cover: "https://d.furaffinity.net/art/largerest/1632601600/1632586232.largerest_
 images:
   - "https://pbs.twimg.com/media/FOGhFB0XsAE3K3D?format=jpg&name=large"
   - "https://placehold.co/600x400"
+draft: false
 ---
