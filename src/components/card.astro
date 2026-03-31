@@ -1,6 +1,5 @@
 ---
 import { getImage } from "astro:assets";
-import { ensureImageCached } from "../lib/image-cache.ts";
 
 const {
   href = "#",
@@ -13,9 +12,7 @@ const {
 } = Astro.props;
 // const a = Astro.props.tag ?? "div";
 
-const diskPath = await ensureImageCached(cover);
-const image = await import("../assets/remote-cache/" + diskPath).then((mod) => mod.default);
-const optimized = await getImage({ src: image, width, height, format: "webp" });
+const optimized = await getImage({ src: cover, width, height, format: "webp" });
 
 ---
 

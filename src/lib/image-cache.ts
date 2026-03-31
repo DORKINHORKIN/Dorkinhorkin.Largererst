@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 
-const CACHE_DIR = path.resolve("./src/assets/remote-cache");
+const CACHE_DIR = path.resolve("./public/assets/remote-cache");
 
 function hash(url: string) {
   return crypto.createHash("sha1").update(url).digest("hex");

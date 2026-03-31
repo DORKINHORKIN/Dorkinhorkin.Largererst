@@ -1,6 +1,5 @@
 ---
 import { getImage } from "astro:assets";
-import { ensureImageCached } from "../lib/image-cache";
 
 const { images, className = "" } = Astro.props as {
   images: { src: string; alt?: string }[];
@@ -10,8 +9,7 @@ const { images, className = "" } = Astro.props as {
 const processedImages = await Promise.all(
   images.map(async (img) => {
     try {
-      const local = await ensureImageCached(img.src);
-      const optimized = await getImage({ src: local, format: "webp" });
+      const optimized = await getImage({ src: img.src, format: "webp" });
       return { ...img, src: optimized.src, width: optimized.options.width, height: optimized.options.height };
     } catch (e) {
       return img;
